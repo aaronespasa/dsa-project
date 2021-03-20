@@ -32,7 +32,7 @@ class HealthCenter(DList):
             self.name = ''
 
         else:
-            print('loading the data for the health center from the file ', filetsv)
+            # print('loading the data for the health center from the file ', filetsv)
 
             self.name = filetsv.replace('.tsv', '') # LosFrailes.tsv -> LosFrailes
             tsv_file = open(filetsv)
@@ -52,6 +52,8 @@ class HealthCenter(DList):
                 self.size += 1 # Modified
                 self.addLast(Patient(name, year, covid, vaccine))
 
+            tsv_file.close()
+
     def addPatient(self, patient):
         """
         Adds patient to patients list (Sorted alphabetically)
@@ -61,46 +63,85 @@ class HealthCenter(DList):
         Information about the method:
             - Insert the new patient in its corresponding position in the list
             - The patient is only added if he/she is not stored in the patients list.
-            - Complexity: Linear <- TimSort to sort aphabetically
+            - Complexity: Linear
         """ 
-        name = patient.name.split(", ")[0] # Lozano
+        if self.isEmpty():
+            self.addFirst(patient)
+        
+        # We use a simple normalization making lowercase all the words
+        name = patient.name.split(", ")[1].lower() 
+        surname = patient.name.split(", ")[0].lower() # Lozano
+        patient_node = self._head
 
-        first_name = self.getAt(0).name.split(", ")[0]
-        last_name = self.getAt(self.size - 1).name.split(", ")
+        i = 0
+        # last_name_less_than_input_name = ""
+        # "aab" > "aaa" -> True
+        while patient_node:
+            patient_node_name = patient_node.elem.name.split(", ")[1].lower()
+            patient_node_surname = patient_node.elem.name.split(", ")[0].lower()
 
-        print(name)
-        if name[0] == last_name[0]:
-            # The patient we're adding should be at the end
-            
-            position_found = False
-            # We use the index to obtain the position of the word.
-            # If index=1, name=Yuya and last_name=Yoyo,
-            # we will check if u (name[1]) is greater, less or equal
-            # than the o.
-            # It starts by 1 because we want to check the letters
-            # from this point forward
-            index = 1
+            if patient_node == self._head:
+                if patient_node_surname > surname: # Lozano, Abad
+                    # The patient should be at the beginning
+                    self.addFirst(patient)
+                    return
+                elif patient_node_surname == surname: # Abad, Abad
+                    # We have to compare the names:
+                    if (patient_node_name > name):
+                        # Insert the patient at the initial position
+                        self.addFirst(patient)
+                        return
+                    elif (patient_node_name == name):
+                        # If the names are the same, do nothing
+                        return
+            elif patient_node.next == None:
+                # Patient should be at the end
+                self.addLast(patient)
+                return
+            elif (patient_node.prev.elem.name.split(", ")[0].lower() < surname and
+                  patient_node.elem.name.split(", ")[0].lower() > surname):
+                # Insert the patient at the current position
+                newNode = DNode(patient)
 
-            while not position_found:
-                if name[1] > last_name[1]:
-                    pass
-                elif name[1] < last_name[1]:
-                    pass
-                else:
-                    # name[i] == name[i + 1]
-                    pass
+                newNode.next = patient_node
+                newNode.prev = patient_node.prev
 
-            
-        elif name[0] == first_name[0]:
-            # The patient we're adding should be at the beginning
-            pass
-        else:
-            # The initial of the patient is not the same than the intial one
-            # nor than the last one
-            for i in range(self.size):
-                if name[0] > self.getAt(i - 1).name.split(", ")[0] and name[0] < self.getAt(i + 1).name.split(", ")[0]:
-                    # Check if the patient we're adding is between two patients
-                    pass
+                patient_node.prev.next = newNode
+                patient_node.prev = newNode 
+
+                self._size += 1
+                return
+            elif patient_node_surname == surname:
+                # We have to compare the names:
+                if (patient_node_name > name):
+                    # Insert the patient before the name
+                    newNode = DNode(patient)
+
+                    newNode.next = patient_node
+                    newNode.prev = patient_node.prev
+
+                    patient_node.prev.next = newNode
+                    patient_node.prev = newNode
+
+                    self._size += 1
+                    return
+                elif (patient_node_name < name):
+                    # Insert the patient after the name
+                    newNode = DNode(patient)
+
+                    newNode.next = patient_node.next
+                    newNode.prev = patient_node
+
+                    patient_node.next = newNode
+
+                    self._size += 1
+                    return
+                elif (patient_node_name == name):
+                    # If the names are the same, do nothing
+                    return
+
+            patient_node = patient_node.next
+            i += 1 
 
     def searchPatients(self, year, covid=None, vaccine=None):
         """
@@ -109,6 +150,13 @@ class HealthCenter(DList):
         Return:
             :newCenter (object): Different center where the list patients
         """
+        # newCenter = HealthCenter(filetsv=None)
+        # if self.isEmpty():
+        #     print("There are no patients to look for")
+        #     return None
+            
+        # # case in which only year is given & covid & vaccine remain by default
+        # if self.year: 
         pass
 
     def stastics(self):

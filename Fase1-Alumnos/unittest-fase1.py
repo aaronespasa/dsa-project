@@ -41,55 +41,54 @@ class Test(unittest.TestCase):
         Test.mark+=0.25
         
     
-    # def test2_addPatient(self):
-    #     print('\tCase2 addPatient: insert at the END\n')
+    def test2_addPatient(self):
+        print('\tCase2 addPatient: insert at the END\n')
         
-    #     expected=HealthCenter('data/LosFrailesLast.tsv')
+        expected=HealthCenter('data/LosFrailesLast.tsv')
 
-    #     result=HealthCenter('data/LosFrailes.tsv')
-    #     objP=Patient('Zen, Chen',1995,1,0)
-    #     result.addPatient(objP)
-        
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        result=HealthCenter('data/LosFrailes.tsv')
+        objP=Patient('Zen, Chen',1995,1,0)
+        result.addPatient(objP)
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
  
     
-    # def test3_addPatient(self):
-    #     print('\tCase3 addPatient: try add a patient who already exists\n')
+    def test3_addPatient(self):
+        print('\tCase3 addPatient: try add a patient who already exists\n')
         
-    #     expected=HealthCenter('data/LosFrailes.tsv')
+        expected=HealthCenter('data/LosFrailes.tsv')
 
-    #     result=HealthCenter('data/LosFrailes.tsv')
-    #     objP=Patient('Hoz, Mario',1928,1,0)
-    #     result.addPatient(objP)
+        result=HealthCenter('data/LosFrailes.tsv')
+        objP=Patient('Hoz, Mario',1928,1,0)
+        result.addPatient(objP)
         
           
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
 
-    # def test4_addPatient(self):
-    #     print('\tCase4 addPatient: add a patient\n')
+    def test4_addPatient(self):
+        print('\tCase4 addPatient: add a patient\n')
         
-    #     expected=HealthCenter('data/LosFrailesMiddle.tsv')
-    #     #Quirante, Pepe	1985	0	0
+        expected=HealthCenter('data/LosFrailesMiddle.tsv')
+        #Quirante, Pepe	1985	0	0
 
-    #     result=HealthCenter('data/LosFrailes.tsv')
+        result=HealthCenter('data/LosFrailes.tsv')
 
-    #     objP=Patient('Quirante, Pepe',1985,0,0)
-    #     result.addPatient(objP)
-        
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.5
+        objP=Patient('Quirante, Pepe',1985,0,0)
+        result.addPatient(objP)
+        print(result)
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.5
 
 
     # def test5_searchPatients(self):

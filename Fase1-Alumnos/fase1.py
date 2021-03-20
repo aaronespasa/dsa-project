@@ -16,3 +16,4 @@ if __name__ == '__main__':
     #Puedes añadir más llamadas a funciones para probarlas
     patient = Patient("Lozano, Manolo", 2001, False, 2)
     gst.addPatient(patient)
+    print(gst)
