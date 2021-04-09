@@ -1,1 +1,5 @@
-# DSA Project
+# Datastructures and algorithms project
+
+## Phase 1 -> Linked lists
+## Phase 2 -> ...
+## Phase 3 -> ...
