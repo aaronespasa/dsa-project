@@ -12,10 +12,29 @@ from Patient import Patient
 if __name__ == '__main__':
     gst = HealthCenter('data/LosFrailes.tsv')
     # print(gst) # See __str__ in dlist
-    
-    #Puedes añadir más llamadas a funciones para probarlas
-    # patient = Patient("Lozano, Manolo", 2001, False, 2)
-    # gst.addPatient(patient)
 
-    search_result = gst.searchPatients(1950, None, None)
-    print(search_result)
+    # search_result = gst.searchPatients(1950, None, None)
+    # print(search_result)
+
+    input1 = HealthCenter('data/LosFrailes.tsv')
+    input2 = HealthCenter('data/Libertad.tsv')
+
+    result = input1.merge(input2)
+    expected = HealthCenter('data/LosFrailes+Libertad.tsv')
+
+    assert(len(result), len(expected), 'FAIL: lenghts are different')
+
+    print("##############################")
+    print("Resulting list:")
+    print(result)
+    print("##############################\n\n")
+
+    print("##############################")
+    print("Expected list:")
+    print(expected)
+    print()
+    print("##############################\n\n")
+
+    for i in range(len(result)):
+        assert(result.getAt(i).name, expected.getAt(i).name, 'FAIL: patients are not equal')
+    print()

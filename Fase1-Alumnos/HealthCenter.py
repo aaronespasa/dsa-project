@@ -257,7 +257,21 @@ class HealthCenter(DList):
             - Complexity: Linear 	 
         """
         new_health_center = HealthCenter() 
-        pass
+        initial_list = HealthCenter('data/LosFrailes.tsv')
+
+        invoking_list_node = self._head
+
+        while invoking_list_node:
+            new_health_center.addPatient(invoking_list_node.elem, initial_list)
+            invoking_list_node = invoking_list_node.next
+
+        other_list_node = other._head
+
+        while other_list_node:
+            new_health_center.addPatient(other_list_node.elem)
+            other_list_node = other_list_node.next
+
+        return new_health_center
 
     def minus(self, other):
         """
