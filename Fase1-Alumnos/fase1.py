@@ -16,7 +16,6 @@ if __name__ == '__main__':
     #Puedes añadir más llamadas a funciones para probarlas
     # patient = Patient("Lozano, Manolo", 2001, False, 2)
     # gst.addPatient(patient)
-    # print(gst)
 
-    search_result = gst.searchPatients(2021, None, 2)
-    # print(search_result)
+    search_result = gst.searchPatients(1950, None, None)
+    print(search_result)

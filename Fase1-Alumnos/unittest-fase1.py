@@ -200,7 +200,6 @@ class Test(unittest.TestCase):
         input=HealthCenter('data/LosFrailes.tsv')
 
         (numcovid,numcovid1950,novaccine,novaccine1950,numvaccine1,numvaccine2) =input.statistics()
-        print(f"{numcovid}, {numcovid1950}, {novaccine}, {novaccine1950}, {numvaccine1}, {numvaccine2}")
         self.assertEqual(numcovid,0.65,'FAIL: #Percentage of patients who have already had covid.')
         self.assertEqual(numcovid1950,0.38,'FAIL: #Percentage of patients born in or before than 1950, who have had covid.')
         self.assertEqual(novaccine,0.57,'FAIL: #Percentage of patients who have not been vaccined with any dosage of the vaccine.')
@@ -210,21 +209,21 @@ class Test(unittest.TestCase):
 
         Test.mark+=0.5
 
-    # def test13_merge(self):
-    #     print('\tCase 13 merge\n')
+    def test13_merge(self):
+        print('\tCase 13 merge\n')
         
-    #     input1=HealthCenter('data/LosFrailes.tsv')
-    #     input2=HealthCenter('data/Libertad.tsv')
+        input1=HealthCenter('data/LosFrailes.tsv')
+        input2=HealthCenter('data/Libertad.tsv')
 
-    #     result=input1.merge(input2)
-    #     expected=HealthCenter('data/LosFrailes+Libertad.tsv')
+        result=input1.merge(input2)
+        expected=HealthCenter('data/LosFrailes+Libertad.tsv')
     
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
 
-    #     Test.mark+=3
+        Test.mark+=3
         
     # def test14_minus(self):
     #     print('\tCase 14 minus\n')

@@ -199,14 +199,14 @@ class HealthCenter(DList):
             
             if year == 2021 or patient.year <= year:
                 # The patient satisfies the year query
-                if not covid and not vaccine:
+                if not covid and vaccine == None:
                     # Search only using the year query
                     new_center.addPatient(patient, initial_list)
-                elif covid and not vaccine:
+                elif covid and vaccine == None:
                     # Search only using the year and covid queries
                     if covid == patient.covid:
                         new_center.addPatient(patient, initial_list)
-                elif not covid and vaccine:
+                elif not covid and vaccine != None:
                     # Search only using the year and vaccine queries
                     if vaccine == patient.vaccine:
                         new_center.addPatient(patient, initial_list)
@@ -220,7 +220,7 @@ class HealthCenter(DList):
         
         return new_center
 
-    def statistics(self):
+    def statistics(self) -> tuple:
         """
         Return:
             numcovid: % of patients who suffered from covid 
@@ -233,28 +233,30 @@ class HealthCenter(DList):
         All percentages follow the following notation: 0.##
         """
         numcovid = round(len(self.searchPatients(2021, True, None)) / self._size, 2)
-        numcovid1950 = round(len(self.searchPatients(1950, True, None)) / self._size, 2)
+        numcovid1950 = round(len(self.searchPatients(1950, True, None)) / \
+                             len(self.searchPatients(1950, None, None)), 2)
         novaccine = round(len(self.searchPatients(2021, None, 0)) / self._size, 2)
-        novaccine1950 = round(len(self.searchPatients(1950, None, 0)) / self._size, 2)
+        novaccine1950 = round(len(self.searchPatients(1950, None, 0)) / \
+                              len(self.searchPatients(1950, None, None)), 2)
         numvaccine1 = round(len(self.searchPatients(2021, None, 1)) / self._size, 2)
         numvaccine2 = round(len(self.searchPatients(2021, None, 2)) / self._size, 2)
 
         return (numcovid, numcovid1950, novaccine, novaccine1950, numvaccine1, numvaccine2)
 
-    def merge(self, other):
+    def merge(self, other: object) -> object:
         """
         Args:
-        Other(object): number of patients from HealthCenter class
+            other: HealthCenter object (other center)
         Return:
-	      new_health_center (list): patients of invoking center and patients
-        of the other center
+	      new_health_center: merge(invoking center, other center)
 
         Information about the method:
-        - List of patients must be sorted alphabetically (no sorting algorithm allowed) 
-				- No duplicates allowed. In case of duplicates keep only patients from
-					invoking center. 
-				- Complexity: Linear 	 
+            - List of patients must be sorted alphabetically
+            - No duplicates allowed. In case of duplicates keep only patients from
+                invoking center. 
+            - Complexity: Linear 	 
         """
+        new_health_center = HealthCenter() 
         pass
 
     def minus(self, other):
