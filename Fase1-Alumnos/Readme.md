@@ -1,6 +1,4 @@
-# Datastructures and algorithms project
-
-## Phase1 (Focused on Linked Lists)
+# Phase1 (Focused on Linked Lists)
 Run the following commands on the terminal (without the $) to:
 
 - Run your own tests:
