@@ -83,7 +83,7 @@ class Test(unittest.TestCase):
 
         objP=Patient('Quirante, Pepe',1985,0,0)
         result.addPatient(objP)
-        print(result)
+        # print(result)
         self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
         for i in range(len(result)):
             self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
@@ -91,123 +91,124 @@ class Test(unittest.TestCase):
         Test.mark+=0.5
 
 
-    # def test5_searchPatients(self):
-    #     print('\tCase5 searchPatients: allpatients\n')
+    def test5_searchPatients(self):
+        print('\tCase5 searchPatients: allpatients\n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
-    #     expected=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
+        expected=HealthCenter('data/LosFrailes.tsv')
 
-    #     result=input.searchPatients(2021,None,None)
-        
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        result=input.searchPatients(2021,None,None)
 
-        
-    # def test6_searchPatients(self):
-    #     print('\tCase 6 searchPatients: all patients who were born in or before 1950 \n')
-        
-    #     input=HealthCenter('data/LosFrailes.tsv')
-    #     result=input.searchPatients(1950,None,None)
-    #     expected=HealthCenter('data/LosFrailes1950.tsv')
-        
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
         
-    # def test7_searchPatients(self):
-    #     print('\tCase 7 searchPatients: all patients who have had covid \n')
+    def test6_searchPatients(self):
+        print('\tCase 6 searchPatients: all patients who were born in or before 1950 \n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
+        result=input.searchPatients(1950,None,None)
+        expected=HealthCenter('data/LosFrailes1950.tsv')
+        
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
-    #     result=input.searchPatients(2021,True,None)
-    #     expected=HealthCenter('data/LosFrailesCovid.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+    def test7_searchPatients(self):
+        print('\tCase 7 searchPatients: all patients who have had covid \n')
+        
+        input=HealthCenter('data/LosFrailes.tsv')
+
+        result=input.searchPatients(2021,True,None)
+        expected=HealthCenter('data/LosFrailesCovid.tsv')
+        
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
     
-    # def test8_searchPatients(self):
-    #     print('\tCase 8 searchPatients: all patients who were born in or before than 1925 and have had covid \n')
+    def test8_searchPatients(self):
+        print('\tCase 8 searchPatients: all patients who were born in or before than 1925 and have had covid \n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
 
-    #     result=input.searchPatients(1950,True,None)
-    #     expected=HealthCenter('data/LosFrailes1950Covid.tsv')
+        result=input.searchPatients(1950,True,None)
+        expected=HealthCenter('data/LosFrailes1950Covid.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
-    # def test9_searchPatients(self):
-    #     print('\tCase 9 searchPatients: all patients who have had covid and have been vaccined only with the first dosage \n')
+    def test9_searchPatients(self):
+        print('\tCase 9 searchPatients: all patients who have had covid and have been vaccined only with the first dosage \n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
 
-    #     result=input.searchPatients(2021,True,1)
-    #     expected=HealthCenter('data/LosFrailesCovid1.tsv')
+        result=input.searchPatients(2021,True,1)
+        expected=HealthCenter('data/LosFrailesCovid1.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
 
-    # def test10_searchPatients(self):
-    #     print('\tCase 10 searchPatients: all patients who have already received the two dosages of the vaccine\n')
+    def test10_searchPatients(self):
+        print('\tCase 10 searchPatients: all patients who have already received the two dosages of the vaccine\n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
 
-    #     result=input.searchPatients(2021,None,2)
-    #     expected=HealthCenter('data/LosFrailesVaccined2.tsv')
+        result=input.searchPatients(2021,None,2)
+        expected=HealthCenter('data/LosFrailesVaccined2.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-    #     Test.mark+=0.25
-
-        
-    # def test11_searchPatients(self):
-    #     print('\tCase 11 searchPatients: all patients who have received the two dosages and were born in or before than 1945\n')
-        
-    #     input=HealthCenter('data/LosFrailes.tsv')
-
-    #     result=input.searchPatients(1945,None,2)
-    #     expected=HealthCenter('data/LosFrailes1945Vaccined2.tsv')
-        
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #         self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
-        
-    #     Test.mark+=0.25
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        Test.mark+=0.25
 
         
-    # def test12_statistics(self):
-    #     print('\tCase 12 statistics\n')
+    def test11_searchPatients(self):
+        print('\tCase 11 searchPatients: all patients who have received the two dosages and were born in or before than 1945\n')
         
-    #     input=HealthCenter('data/LosFrailes.tsv')
+        input=HealthCenter('data/LosFrailes.tsv')
 
-    #     (numcovid,numcovid1950,novaccine,novaccine1950,numvaccine1,numvaccine2) =input.statistics()
-    #     self.assertEqual(numcovid,0.65,'FAIL: #Percentage of patients who have already had covid.')
-    #     self.assertEqual(numcovid1950,0.38,'FAIL: #Percentage of patients born in or before than 1950, who have had covid.')
-    #     self.assertEqual(novaccine,0.57,'FAIL: #Percentage of patients who have not been vaccined with any dosage of the vaccine.')
-    #     self.assertEqual(novaccine1950,0.23,'FAIL: #Percentage of patients born in or before than 1950, who have not been vaccined with any dosage.')
-    #     self.assertEqual(numvaccine1,0.13,'FAIL: #Percentage of patients who have already received the first dosage.')
-    #     self.assertEqual(numvaccine2,0.3,'FAIL: #Percentage of patients who have already received the two dosages.')
+        result=input.searchPatients(1945,None,2)
+        expected=HealthCenter('data/LosFrailes1945Vaccined2.tsv')
+        
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+            self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
+        
+        Test.mark+=0.25
 
-    #     Test.mark+=0.5
+        
+    def test12_statistics(self):
+        print('\tCase 12 statistics\n')
+        
+        input=HealthCenter('data/LosFrailes.tsv')
+
+        (numcovid,numcovid1950,novaccine,novaccine1950,numvaccine1,numvaccine2) =input.statistics()
+        print(f"{numcovid}, {numcovid1950}, {novaccine}, {novaccine1950}, {numvaccine1}, {numvaccine2}")
+        self.assertEqual(numcovid,0.65,'FAIL: #Percentage of patients who have already had covid.')
+        self.assertEqual(numcovid1950,0.38,'FAIL: #Percentage of patients born in or before than 1950, who have had covid.')
+        self.assertEqual(novaccine,0.57,'FAIL: #Percentage of patients who have not been vaccined with any dosage of the vaccine.')
+        self.assertEqual(novaccine1950,0.23,'FAIL: #Percentage of patients born in or before than 1950, who have not been vaccined with any dosage.')
+        self.assertEqual(numvaccine1,0.13,'FAIL: #Percentage of patients who have already received the first dosage.')
+        self.assertEqual(numvaccine2,0.3,'FAIL: #Percentage of patients who have already received the two dosages.')
+
+        Test.mark+=0.5
 
     # def test13_merge(self):
     #     print('\tCase 13 merge\n')

@@ -14,6 +14,9 @@ if __name__ == '__main__':
     # print(gst) # See __str__ in dlist
     
     #Puedes añadir más llamadas a funciones para probarlas
-    patient = Patient("Lozano, Manolo", 2001, False, 2)
-    gst.addPatient(patient)
-    print(gst)
+    # patient = Patient("Lozano, Manolo", 2001, False, 2)
+    # gst.addPatient(patient)
+    # print(gst)
+
+    search_result = gst.searchPatients(2021, None, 2)
+    # print(search_result)
