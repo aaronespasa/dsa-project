@@ -54,6 +54,47 @@ class HealthCenter(DList):
 
             tsv_file.close()
 
+    def insert_before_patient_node(self, patient:object, patient_node:object, patient_node_when_initial_list:bool):
+        """Insert a patient before the patient_node"""
+        newNode = DNode(patient)
+
+        if patient_node_when_initial_list:
+            newNode.next = patient_node_when_initial_list
+            newNode.prev = patient_node_when_initial_list.prev
+
+            patient_node_when_initial_list.prev.next = newNode
+            patient_node_when_initial_list.prev = newNode
+        else:
+            newNode.next = patient_node
+            newNode.prev = patient_node.prev
+
+            patient_node.prev.next = newNode
+            patient_node.prev = newNode
+
+        self._size += 1
+
+    def insert_after_patient_node(self, patient:object, patient_node:object, patient_node_when_initial_list:bool):
+        """Insert a patient after the patient_node"""
+        newNode = DNode(patient)
+
+        if patient_node_when_initial_list:
+            newNode.next = patient_node_when_initial_list.next
+            newNode.prev = patient_node_when_initial_list
+
+            if patient_node_when_initial_list.next == None:
+                self._tail = newNode
+
+            patient_node_when_initial_list.next = newNode
+            # patient_node_when_initial_list.next.prev = newNode
+        else:
+            newNode.next = patient_node.next
+            newNode.prev = patient_node
+
+            patient_node.next.prev = newNode
+            patient_node.next = newNode
+
+        self._size += 1
+
     def addPatient(self, patient:object, initial_list: object = None):
         """
         Adds patient to patients list (Sorted alphabetically)
@@ -74,8 +115,12 @@ class HealthCenter(DList):
         name = patient.name.split(", ")[1].lower() 
         surname = patient.name.split(", ")[0].lower() # Lozano
         
-        patient_node = self._head if not initial_list else initial_list._head
-        patient_node_when_initial_list = self._head if initial_list else None
+        if initial_list:
+            patient_node = initial_list._head
+            patient_node_when_initial_list = self._head
+        else:
+            patient_node = self._head
+            patient_node_when_initial_list = None
 
         # last_name_less_than_input_name = ""
         # "aab" > "aaa" -> True
@@ -99,76 +144,29 @@ class HealthCenter(DList):
                     elif (patient_node_name == name):
                         # If the names are the same, do nothing
                         return
-            elif patient_node.next == None:
-                # Patient should be at the end
-                self.addLast(patient)
-                return
             elif (patient_node.prev.elem.name.split(", ")[0].lower() < surname and
                   patient_node.elem.name.split(", ")[0].lower() > surname):
-                # Insert the patient at the current position
-                newNode = DNode(patient)
-
-                if patient_node_when_initial_list:
-                    newNode.next = patient_node_when_initial_list
-                    newNode.prev = patient_node_when_initial_list.prev
-
-                    patient_node_when_initial_list.next = newNode
-                    patient_node_when_initial_list.prev = newNode
-                else:
-                    newNode.next = patient_node
-                    newNode.prev = patient_node.prev
-                    
-                    patient_node.prev.next = newNode
-                    patient_node.prev = newNode
-
-                self._size += 1
+                # Insert the patient before the patient_node
+                self.insert_before_patient_node(patient, patient_node, patient_node_when_initial_list)
                 return
             elif patient_node_surname == surname:
-                # We have to compare the names:
+                # Surnames are the same,
+                # so we've to compare the names
                 if (patient_node_name > name):
-                    # Insert the patient before the name
-                    newNode = DNode(patient)
-
-                    if patient_node_when_initial_list:
-                        newNode.next = patient_node_when_initial_list
-                        newNode.prev = patient_node_when_initial_list.prev
-
-                        patient_node_when_initial_list.next = newNode
-                        patient_node_when_initial_list.prev = newNode
-                    else:
-                        newNode.next = patient_node
-                        newNode.prev = patient_node.prev
-                        
-                        patient_node.prev.next = newNode
-                        patient_node.prev = newNode
-
-                    self._size += 1
+                    self.insert_before_patient_node(patient, patient_node, patient_node_when_initial_list)
                     return
-                elif (patient_node_name < name) or \
-                     ((patient_node_name == name) and initial_list):
-                    # Insert the patient after the name
-                    newNode = DNode(patient)
-
-                    if patient_node_when_initial_list:
-                        newNode.next = patient_node_when_initial_list.next
-                        newNode.prev = patient_node_when_initial_list
-
-                        patient_node_when_initial_list.next = newNode
-                        self._tail = newNode
-                    else:
-                        newNode.next = patient_node.next
-                        newNode.prev = patient_node
-                        patient_node.next = newNode
-
-                    self._size += 1
+                elif (patient_node_name < name) or ((patient_node_name == name) and initial_list):
+                    self.insert_after_patient_node(patient, patient_node, patient_node_when_initial_list)
                     return
                 elif (patient_node_name == name):
                     # If the names are the same, do nothing
                     return
-
+            elif patient_node.next == None:
+                # Patient should be at the end
+                self.addLast(patient)
+                return
             patient_node = patient_node.next
-            if patient_node_when_initial_list and \
-               patient_node_when_initial_list.next != None:
+            if patient_node_when_initial_list and patient_node_when_initial_list.next != None:
                 # We avoid converting patient_node_when_initial_list in None.
                 # This way, it enters into the conditional when adding a new patient
                 patient_node_when_initial_list = patient_node_when_initial_list.next 
@@ -201,19 +199,22 @@ class HealthCenter(DList):
                 # The patient satisfies the year query
                 if not covid and vaccine == None:
                     # Search only using the year query
-                    new_center.addPatient(patient, initial_list)
+                    add_patient_to_new_center = True
                 elif covid and vaccine == None:
                     # Search only using the year and covid queries
                     if covid == patient.covid:
-                        new_center.addPatient(patient, initial_list)
+                        add_patient_to_new_center = True
                 elif not covid and vaccine != None:
                     # Search only using the year and vaccine queries
                     if vaccine == patient.vaccine:
-                        new_center.addPatient(patient, initial_list)
+                        add_patient_to_new_center = True
                 else:
                     # Search using all the three queries
                     if covid == patient.covid and vaccine == patient.vaccine:
-                        new_center.addPatient(patient, initial_list)
+                        add_patient_to_new_center = True
+
+            if add_patient_to_new_center:
+                new_center.addPatient(patient, initial_list)
 
             # Update the patient_node
             patient_node = patient_node.next
@@ -268,8 +269,16 @@ class HealthCenter(DList):
         other_list_node = other._head
 
         while other_list_node:
+            # name = str(other_list_node.elem.name.split(", ")[1].lower())
+
+            # if name == "mark":
+            #     print("######################")
+            #     print("Attention")
+            #     print("######################")
+
             new_health_center.addPatient(other_list_node.elem)
             other_list_node = other_list_node.next
+            # print(f"{new_health_center}\nWe're adding {other_list_node.elem.name}", end="\n\n")
 
         return new_health_center
 
