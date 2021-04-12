@@ -225,44 +225,44 @@ class Test(unittest.TestCase):
 
         Test.mark+=3
         
-    # def test14_minus(self):
-    #     print('\tCase 14 minus\n')
+    def test14_minus(self):
+        print('\tCase 14 minus\n')
         
-    #     input1=HealthCenter('data/LosFrailes.tsv')
-    #     input2=HealthCenter('data/LosFrailesVaccined2.tsv')
+        input1=HealthCenter('data/LosFrailes.tsv')
+        input2=HealthCenter('data/LosFrailesVaccined2.tsv')
 
 
-    #     result=input1.minus(input2)
+        result=input1.minus(input2)
 
         
-    #     expected=HealthCenter('data/LosFrailes-LosFrailesVaccined2.tsv')
+        expected=HealthCenter('data/LosFrailes-LosFrailesVaccined2.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #           self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+              self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
         
-    #     Test.mark+=1.75
+        Test.mark+=1.75
 
         
-    # def test15_inter(self):
-    #     print('\tCase 14 inter\n')
+    def test15_inter(self):
+        print('\tCase 14 inter\n')
         
-    #     input1=HealthCenter('data/LosFrailes.tsv')
-    #     input2=HealthCenter('data/LosFrailes3.tsv')
+        input1=HealthCenter('data/LosFrailes.tsv')
+        input2=HealthCenter('data/LosFrailes3.tsv')
 
 
-    #     result=input1.inter(input2)
+        result=input1.inter(input2)
         
         
-    #     expected=HealthCenter('data/LosFrailesyLosFrailes3.tsv')
+        expected=HealthCenter('data/LosFrailesyLosFrailes3.tsv')
         
-    #     self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
-    #     for i in range(len(result)):
-    #           self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
-    #     print()
+        self.assertEqual(len(result),len(expected),'FAIL: lenghts are different')
+        for i in range(len(result)):
+              self.assertEqual(result.getAt(i).name,expected.getAt(i).name,'FAIL: patients are not equal')
+        print()
         
-    #     Test.mark+=1.75
+        Test.mark+=1.75
 
     def test_showmark(self):
         print('Total mark is ', Test.mark)

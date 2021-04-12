@@ -181,14 +181,13 @@ class HealthCenter(DList):
                 -  1: First dose received.
                 -  2: Second dose received.
         Return:
-            newCenter: Patient list which meets the search criteria
+            new_health_center: Patient list which meets the search criteria
         """
         if self.isEmpty():
             print("There are no patients to look for")
             return None
 
-        new_center = HealthCenter(None)
-        initial_list = HealthCenter('data/LosFrailes.tsv')
+        new_health_center = HealthCenter()
         patient_node = self._head
 
         while patient_node:
@@ -214,12 +213,12 @@ class HealthCenter(DList):
                         add_patient_to_new_center = True
 
             if add_patient_to_new_center:
-                new_center.addPatient(patient, initial_list)
+                new_health_center.addPatient(patient, self)
 
             # Update the patient_node
             patient_node = patient_node.next
         
-        return new_center
+        return new_health_center
 
     def statistics(self) -> tuple:
         """
@@ -258,12 +257,11 @@ class HealthCenter(DList):
             - Complexity: Linear 	 
         """
         new_health_center = HealthCenter() 
-        initial_list = HealthCenter('data/LosFrailes.tsv')
 
         invoking_list_node = self._head
 
         while invoking_list_node:
-            new_health_center.addPatient(invoking_list_node.elem, initial_list)
+            new_health_center.addPatient(invoking_list_node.elem, self)
             invoking_list_node = invoking_list_node.next
 
         other_list_node = other._head
@@ -282,24 +280,47 @@ class HealthCenter(DList):
 
         return new_health_center
 
-    def minus(self, other):
+    def is_patient_in_the_list(self, patient:object, dlist:object) -> bool:
+        """Check if the given patient is on dlist"""
+        patient_node = dlist._head
+
+        while patient_node:
+            if patient_node.elem.name == patient.name:
+                return True
+
+            patient_node = patient_node.next
+
+        return False
+
+    def minus(self, other:object) -> object:
         """
         Args:
-        Other(object): number of patients from HealthCenter class
+            other: Number of patients from HealthCenter class
        
         Return:
-        new_health_center(list): patients from invoking center and not belonging to 
-        other center.
+            new_health_center: Patients from invoking center and not belonging to 
+            other center.
 
         Information about the method:
         - List of patients must be sorted alphabetically (no sorting algorithm allowed) 
-				- No duplicates allowed. In case of duplicates keep only patients from
-					invoking center. 
-				- Efficent as possible. Linear complexity?
+        - No duplicates allowed. In case of duplicates keep only patients from
+            invoking center. 
+        - Efficent as possible.
         """
-        pass
+        new_health_center = HealthCenter()
 
-    def inter(self, other):
+        invoking_list_node = self._head
+
+        while invoking_list_node:
+            if not self.is_patient_in_the_list(invoking_list_node.elem, other):
+                # If the patient is not in the invoking list, add it
+                new_health_center.addPatient(invoking_list_node.elem, self)
+
+            invoking_list_node = invoking_list_node.next
+
+        return new_health_center
+
+    def inter(self, other:object) -> object:
         """
         Args:
         Other(object): number of patients from HealthCenter class
@@ -310,8 +331,19 @@ class HealthCenter(DList):
         
         Information about the method:
         - List of patients must be sorted alphabetically (no sorting algorithm allowed) 
-				- No duplicates allowed. In case of duplicates add once to the new center. 
-				- Efficent as possible. Linear complexity?
+        - No duplicates allowed. In case of duplicates add once to the new center. 
+        - Efficent as possible. Linear complexity?
             
         """
-        pass
+        new_health_center = HealthCenter()
+        
+        invoking_list_node = self._head
+
+        while invoking_list_node:
+            if self.is_patient_in_the_list(invoking_list_node.elem, other):
+                # If the patient is not in the invoking list, add it
+                new_health_center.addPatient(invoking_list_node.elem, self)
+
+            invoking_list_node = invoking_list_node.next
+
+        return new_health_center
