@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Health Center class
 
 Data Structures and Algorithms: Phase 1 - Covid-19 Vaccination Campaign
