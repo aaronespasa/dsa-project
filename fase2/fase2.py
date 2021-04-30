@@ -216,17 +216,69 @@ class HealthCenter2(BinarySearchTree):
         # Base case
         if schedule_node == None:
             return False
-        elif schedule_node.elem.appointment == time:
+        if schedule_node.elem.appointment == time:
             return True
+        # Recursive case
+        if time < schedule_node.key:
+            return self._isTimeInSchedule(time, schedule_node.left)
+        if time > schedule_node.key:
+            return self._isTimeInSchedule(time, schedule_node.right)
+
+    def findBestTime(self, time, schedule):
+        """Returns the most time-close slot"""
+        return self._findBestTime(time, schedule, time)
+
+    def _findBestTime(self, time_test, schedule, time, time_difference=5, direction="down", finalDown=False, finalUp=False):
+        """time_test is the time to check if it's busy"""
+        # Base case
+        if not self.isTimeInSchedule(time_test, schedule):
+            return time_test
 
         # Recursive case
-        return self._isTimeInSchedule(time, schedule_node.left) or \
-               self._isTimeInSchedule(time, schedule_node.right)
+        hours, minutes = int(time[:2]), int(time[3:])
+        total_minutes = hours * 60 + minutes
+
+        # 8 * 60 is the earliest time to take an appointment
+        if total_minutes <= 8 * 60:
+            finalDown = True
+        elif total_minutes >= 19 * 60 + 55:
+            finalUp = True
+
+        
+        if finalDown:
+            total_minutes += time_difference
+            time_difference += 5
+        elif finalUp:
+            total_minutes -= time_difference
+            time_difference += 5
+        elif direction == "up":
+            total_minutes += time_difference
+            direction = "down"
+            time_difference += 5
+        elif direction == "down":
+            direction = "up"
+            total_minutes -= time_difference
+
+        hours = int(total_minutes / 60)
+        minutes = total_minutes - hours * 60
+        if len(str(hours)) == 1:
+            hours = "0" + str(hours)
+        if len(str(minutes)) == 1:
+            minutes = "0" + str(minutes)
+        time_test = f"{hours}:{minutes}"
+
+        return self._findBestTime(time_test, schedule, time, time_difference, direction, finalDown, finalUp)
 
     def makeAppointment(self,name,time,schedule):
         """ for the patient whose name is name. The function returns True if the appointment 
         is created and False in any other case """        
-        if int(time[0:2]) < 8 or (int(time[0:2]) == 19 and int(time[3:]) > 55) or int(time[0:2]) > 19:
+        # Each hour has (60 / 5) slots. Since there are 12 hours in the interval,
+        # we can conclude that there are (60 / 5) * 12 slots
+        total_slots = (60 / 5) * 12
+        if schedule.size() == total_slots:
+            print("There are no available slots")
+            return False
+        elif int(time[0:2]) < 8 or (int(time[0:2]) == 19 and int(time[3:]) > 55) or int(time[0:2]) > 19:
             return False
         elif not self.search(name):
             print("The patient does not exist in the invoking health center")
@@ -240,11 +292,20 @@ class HealthCenter2(BinarySearchTree):
             if not self.isTimeInSchedule(time, schedule):
                 # The time is free
                 patient = self.find(name)
-                patient.appointment = time
-                schedule.insert(patient.key, patient.elem)
+                patient.elem.appointment = time
+                schedule.insert(time, patient.elem)
                 
                 return True
+            
+            # The time is not free
+            new_appointment = self.findBestTime(time, schedule)
 
+            patient = self.find(name)
+            patient.elem.appointment = new_appointment
+
+            schedule.insert(new_appointment, patient.elem)
+
+            return True
 
 if __name__ == '__main__':
     
