@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 from binarysearchtree import BinarySearchTree
 
 import csv      #read files csv, tsv
@@ -130,24 +129,121 @@ class HealthCenter2(BinarySearchTree):
         
         result=HealthCenter2()
 
-        ...
+        if self._root == None:
+            # The tree is empty
+            return result
+
+        # Search patient main code
+        q = queue.Queue()
+        q.put(self._root)
+
+        while q.empty() == False:
+
+            # dequeue for obtaining the patient
+            # using level order traversal
+            patient = q.get()
+
+            add_patient_to_new_center = False
+
+            if year == 2021 or patient.elem.year <= year:
+                # The patient satisfies the year query
+                if not covid and vaccine == None:
+                    # Search only using the year query
+                    add_patient_to_new_center = True
+                elif covid and vaccine == None:
+                    # Search only using the year and covid queries
+                    if covid == patient.elem.covid:
+                        add_patient_to_new_center = True
+                elif not covid and vaccine != None:
+                    # Search only using the year and vaccine queries
+                    if vaccine == patient.elem.vaccine:
+                        add_patient_to_new_center = True
+                else:
+                    # Search using all the three queries
+                    if covid == patient.elem.covid and vaccine == patient.elem.vaccine:
+                        add_patient_to_new_center = True
+
+            if add_patient_to_new_center:
+                result.insert(patient.key, patient.elem)
+
+            # Enqueue the next elements of the tree
+            if patient.left != None:
+                q.put(patient.left)
+            if patient.right != None:
+                q.put(patient.right)
     
         return result
             
 
 
-    def vaccine(self,name,vaccinated):
+    def vaccine(self,name,vaccinated) -> bool:
         """This functions simulates the vaccination of a patient whose
-        name is name. It returns True is the patient is vaccinated and False eoc"""
-        return None
+        name is name. It returns True if the patient is vaccinated and False in any other case"""
+        if not self.search(name):
+            print("The patient does not exist in the invoking health center")
+            return False
+        elif self.find(name).elem.vaccine == 2:
+            # Patient has received two doses
+            print("This patient has already been vaccinated")
+            vaccinated_patient = self.find(name)
+            vaccinated.insert(vaccinated_patient.key, vaccinated_patient.elem)
+            self.remove(vaccinated_patient.key)
+            
+            return False
+        elif self.find(name).elem.vaccine == 1:
+            # Patient has received one dose
+            # Update the number of doses to two
+            vaccinated_patient = self.find(name)
+            vaccinated_patient.elem.vaccine += 1
+            vaccinated.insert(vaccinated_patient.key, vaccinated_patient.elem)
+            self.remove(vaccinated_patient.key)
+            
+            return True
+        elif self.find(name).elem.vaccine == 0:
+            # Patient hasn't received any doses
+            vaccinated_patient = self.find(name)
+            vaccinated_patient.elem.vaccine += 1
+            return True
+        
+    def isTimeInSchedule(self, time, schedule):
+        if schedule._root == None:
+            # Schedule is empty
+            return False
 
+        return self._isTimeInSchedule(time, schedule._root)
+    
+    def _isTimeInSchedule(self, time, schedule_node):
+        # Base case
+        if schedule_node == None:
+            return False
+        elif schedule_node.elem.appointment == time:
+            return True
+
+        # Recursive case
+        return self._isTimeInSchedule(time, schedule_node.left) or \
+               self._isTimeInSchedule(time, schedule_node.right)
 
     def makeAppointment(self,name,time,schedule):
-        """This functions makes an appointment 
-        for the patient whose name is name. It functions returns True is the appointment 
-        is created and False eoc """
-        return None
+        """ for the patient whose name is name. The function returns True if the appointment 
+        is created and False in any other case """        
+        if int(time[0:2]) < 8 or (int(time[0:2]) == 19 and int(time[3:]) > 55) or int(time[0:2]) > 19:
+            return False
+        elif not self.search(name):
+            print("The patient does not exist in the invoking health center")
+            return False
+        elif self.find(name).elem.vaccine == 2:
+            # Patient has received two doses
+            print("This patient has already been vaccinated")
+            return False
+        elif self.find(name).elem.vaccine == 1 or self.find(name).elem.vaccine == 0:
+            # Patient has received one/zero doses
+            if not self.isTimeInSchedule(time, schedule):
+                # The time is free
+                patient = self.find(name)
+                patient.appointment = time
+                schedule.insert(patient.key, patient.elem)
                 
+                return True
 
 
 if __name__ == '__main__':

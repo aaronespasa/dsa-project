@@ -195,7 +195,7 @@ class BinarySearchTree(BinaryTree):
         
         
     def draw(self,extend=True):
-        """Fucntion to draw a tree. It extend is True,
+        """Function to draw a tree. It extend is True,
         for each node, its key and element are printed
         If extend is False, it only prints its key"""
         if self._root:
