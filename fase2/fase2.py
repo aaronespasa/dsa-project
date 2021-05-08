@@ -147,14 +147,14 @@ class HealthCenter2(BinarySearchTree):
 
             if year == 2021 or patient.elem.year <= year:
                 # The patient satisfies the year query
-                if not covid and vaccine == None:
+                if covid == None and vaccine == None:
                     # Search only using the year query
                     add_patient_to_new_center = True
-                elif covid and vaccine == None:
+                elif covid != None and vaccine == None:
                     # Search only using the year and covid queries
                     if covid == patient.elem.covid:
                         add_patient_to_new_center = True
-                elif not covid and vaccine != None:
+                elif covid == None and vaccine != None:
                     # Search only using the year and vaccine queries
                     if vaccine == patient.elem.vaccine:
                         add_patient_to_new_center = True
