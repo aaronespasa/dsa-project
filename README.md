@@ -1,4 +1,6 @@
-# Datastructures and algorithms project
+# Covid-19 Vaccination Campaign
+## The data structures used for each project are listed below the "Phase X".
+Developing a program for the distribution and tracking of Covid-19 vaccines.
 
 ## Phase 1
 ### Doubly Linked lists
@@ -12,4 +14,4 @@
 
 ## Phase 3
 ### Graphs
-#### [Go to Phase2](https://github.com/aaronespasa/dsa-project/tree/main/fase3)
+#### [Go to Phase3](https://github.com/aaronespasa/dsa-project/tree/main/fase3)
